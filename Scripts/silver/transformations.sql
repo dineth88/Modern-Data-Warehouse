@@ -1,3 +1,4 @@
+-- crm_cust_info
 INSERT INTO silver.crm_cust_info (
 	cst_id,
 	cst_key,
@@ -26,3 +27,37 @@ from (select
 *,
 ROW_NUMBER() OVER (PARTITION BY cst_id ORDER BY cst_create_date DESC) as flag_last
 FROM bronze.crm_cust_info)t where flag_last = 1
+
+-- crm_prd_info
+insert into silver.crm_prd_info (
+	prd_id,
+	cat_id,
+	prd_key,
+	prd_nm,
+	prd_cost,
+	prd_line,
+	prd_start_dt,
+	prd_end_dt
+)
+select 
+	prd_id,
+	-- Fist 5 characters --> category id (CO-RF --> CO_RF), remaining product_id
+	-- SUBSTRING(field, start from, length)
+	REPLACE(SUBSTRING(prd_key, 1, 5), '-', '_') AS car_id,
+	SUBSTRING(prd_key, 7, LEN(prd_key)) AS prd_key,
+	prd_nm,
+	-- Converting null --> 0 for further calculations
+	ISNULL(prd_cost, 0) AS prd_cost,
+	CASE UPPER(TRIM(prd_line))
+		WHEN 'M' THEN 'Mountain'
+		WHEN 'R' THEN 'Road'
+		WHEN 'S' THEN 'Other Sales'
+		WHEN 'T' THEN 'Touring'
+		ELSE 'n/a'
+	END AS prd_line,
+	CAST (prd_start_dt AS DATE) AS prd_start_dt,
+	-- start date < end date
+	LEAD(prd_start_dt) OVER (PARTITION BY prd_key ORDER BY prd_start_dt) - 1 AS prd_end_dt
+from bronze.crm_prd_info
+WHERE SUBSTRING(prd_key, 7, LEN(prd_key)) NOT IN (
+SELECT sls_prd_key FROM bronze.crm_sales_details)
