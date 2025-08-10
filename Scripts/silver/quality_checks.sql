@@ -81,3 +81,23 @@ WHERE sls_sales != sls_quantity * sls_price
 OR sls_sales IS NULL OR sls_quantity IS NULL OR sls_price IS NULL
 OR sls_sales <= 0 OR sls_quantity <= 0 OR sls_price <= 0
 ORDER BY sls_sales, sls_quantity, sls_price
+
+-- ======================== erp_cust_az12 ============================
+-- cid column will use as a foreign key
+SELECT 
+cid,
+CASE WHEN cid LIKE 'NAS%' THEN SUBSTRING(cid, 4, LEN(cid))
+	ELSE cid
+END cid,
+bdate,
+gen
+FROM bronze.erp_cust_az12
+WHERE CASE WHEN cid LIKE 'NAS%' THEN SUBSTRING(cid, 4, LEN(cid))
+	ELSE cid
+END NOT IN (SELECT DISTINCT cst_key FROM silver.crm_cust_info )
+
+--Identify out-of-range dates
+SELECT DISTINCT
+bdate
+from bronze.erp_cust_az12
+where bdate < '1924-01-01' OR bdate > GETDATE()
