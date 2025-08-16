@@ -1,4 +1,4 @@
--- crm_cust_info
+-- ================== crm_cust_info ===========================
 INSERT INTO silver.crm_cust_info (
 	cst_id,
 	cst_key,
@@ -28,7 +28,7 @@ from (select
 ROW_NUMBER() OVER (PARTITION BY cst_id ORDER BY cst_create_date DESC) as flag_last
 FROM bronze.crm_cust_info)t where flag_last = 1
 
--- crm_prd_info
+--  ================== crm_prd_info ===========================
 insert into silver.crm_prd_info (
 	prd_id,
 	cat_id,
@@ -62,7 +62,7 @@ from bronze.crm_prd_info
 WHERE SUBSTRING(prd_key, 7, LEN(prd_key)) NOT IN (
 SELECT sls_prd_key FROM bronze.crm_sales_details)
 
--- crm_sales_details
+--  ================== crm_sales_details ===========================
 INSERT INTO silver.crm_sales_details (
 	sls_ord_num,
 	sls_prd_key,
@@ -101,4 +101,18 @@ CASE WHEN sls_price IS NULL OR sls_price <= 0
 	ELSE sls_price
 END AS sls_price -- Derive price if original value is invalid
 FROM bronze.crm_sales_details
+
+--  ================== erp_cust_az12 ===========================
+-- prefix removed cid column will use as a foreign key
+INSERT INTO silver.erp_cust_az12 (cid, bdate, gen)
+SELECT 
+CASE WHEN cid LIKE 'NAS%' THEN SUBSTRING(cid, 4, LEN(cid))
+	ELSE cid
+END cid,
+bdate,
+CASE WHEN UPPER(TRIM(gen)) IN ('F', 'FEMALE') THEN 'Female'
+	WHEN UPPER(TRIM(gen)) IN ('M', 'MALE') THEN 'Male'
+	ELSE 'n/a'
+END AS gen
+FROM bronze.erp_cust_az12
 
