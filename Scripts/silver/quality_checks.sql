@@ -148,3 +148,24 @@ FROM bronze.erp_loc_a101 WHERE REPLACE(cid, '-', '') NOT IN
 SELECT DISTINCT cntry
 FROM bronze.erp_loc_a101
 ORDER BY cntry
+
+
+--======================= erp_px_cat_g1v2 ===========================
+SELECT 
+id,
+cat,
+subcat,
+maintenance
+FROM bronze.erp_px_cat_g1v2
+
+-- Check unwanted spaces in cat
+SELECT 
+*
+FROM bronze.erp_px_cat_g1v2
+WHERE cat != TRIM(cat) OR subcat!= TRIM(subcat) OR maintenance != TRIM(maintenance)
+
+-- Data Standardization & consistency
+SELECT DISTINCT
+subcat,
+maintenance
+FROM bronze.erp_px_cat_g1v2
