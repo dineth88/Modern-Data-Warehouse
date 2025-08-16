@@ -84,6 +84,24 @@ ORDER BY sls_sales, sls_quantity, sls_price
 
 -- ======================== erp_cust_az12 ============================
 -- cid column will use as a foreign key
+INSERT INTO silver.erp_cust_az12 (cid, bdate, gen)
+SELECT 
+CASE WHEN cid LIKE 'NAS%' THEN SUBSTRING(cid, 4, LEN(cid))
+	ELSE cid
+END cid,
+bdate,
+CASE WHEN UPPER(TRIM(gen)) IN ('F', 'FEMALE') THEN 'Female'
+	WHEN UPPER(TRIM(gen)) IN ('M', 'MALE') THEN 'Male'
+	ELSE 'n/a'
+END AS gen
+FROM bronze.erp_cust_az12
+
+--Identify out-of-range dates
+SELECT DISTINCT
+bdate
+from bronze.erp_cust_az12
+where bdate < '1924-01-01' OR bdate > GETDATE()
+
 SELECT 
 cid,
 CASE WHEN cid LIKE 'NAS%' THEN SUBSTRING(cid, 4, LEN(cid))
@@ -96,8 +114,14 @@ WHERE CASE WHEN cid LIKE 'NAS%' THEN SUBSTRING(cid, 4, LEN(cid))
 	ELSE cid
 END NOT IN (SELECT DISTINCT cst_key FROM silver.crm_cust_info )
 
---Identify out-of-range dates
-SELECT DISTINCT
-bdate
-from bronze.erp_cust_az12
-where bdate < '1924-01-01' OR bdate > GETDATE()
+-- Data Standarization and consistency
+SELECT DISTINCT gen
+FROM bronze.erp_cust_az12
+
+SELECT DISTINCT 
+gen,
+CASE WHEN UPPER(TRIM(gen)) IN ('F', 'FEMALE') THEN 'Female'
+	WHEN UPPER(TRIM(gen)) IN ('M', 'MALE') THEN 'Male'
+	ELSE 'n/a'
+END AS gen
+FROM bronze.erp_cust_az12
