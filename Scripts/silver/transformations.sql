@@ -1,4 +1,4 @@
--- creatings tored procedures
+-- creatings stored procedures
 EXEC silver.load_silver
 
 CREATE OR ALTER PROCEDURE silver.load_silver AS
@@ -181,7 +181,7 @@ BEGIN
 		SELECT 
 		REPLACE(cid, '-', '') cid,
 		CASE WHEN TRIM(cntry) = 'DE' THEN 'Germany'
-			WHEN TRIM(cntry) IN ('UD', 'USA') THEN 'United States'
+			WHEN TRIM(cntry) IN ('US', 'USA') THEN 'United States'
 			WHEN TRIM(cntry) = '' OR cntry IS NULL THEN 'n/a'
 			ELSE TRIM(cntry)
 		END as cntry --Normalize and handling missing or blank country codes
