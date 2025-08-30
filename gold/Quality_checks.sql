@@ -1,4 +1,6 @@
-SELECT
+
+
+-- =================gold.dim_custoemrs ============================SELECT
 ci.cst_id,
 ci.cst_key,
 ci.cst_firstname,
@@ -49,3 +51,16 @@ ON ci.cst_key = ca.cid
 LEFT JOIN silver.erp_loc_a101 la
 ON ci.cst_key = la.cid
 ORDER BY 1, 2
+
+-- ================== Product ============================
+
+SELECT
+pn.prd_id,
+pn.cat_id,
+pn.prd_key,
+pn.prd_nm,
+pn.prd_cost,
+pn.prd_line,
+pn.prd_start_dt,
+pn.prd_end_dt
+FROM silver.crm_prd_info pn
