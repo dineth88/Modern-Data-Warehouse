@@ -46,6 +46,8 @@ Everything is for Free!
 
 ### Building the Data Warehouse (Data Engineering)
 
+<img width="3288" height="1404" alt="Image" src="https://github.com/user-attachments/assets/6d86812f-2283-4176-be06-0c4ec2821639" />
+
 #### Objective
 Develop a modern data warehouse using SQL Server to consolidate sales data, enabling analytical reporting and informed decision-making.
 
