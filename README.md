@@ -72,6 +72,7 @@ These insights empower stakeholders with key business metrics, enabling strategi
 
 For more details, refer to [docs/requirements.md](docs/requirements.md).
 
+ 
  | ## 📂 Repository Structure
  | ```
  | data-warehouse-project/
