@@ -77,26 +77,26 @@ For more details, refer to [docs/requirements.md](docs/requirements.md).
   
 ├── .gitignore \
 ├── LICENSE \
-├── README.md
-├── Scripts
-    ├── bronze
-    │   ├── ddl_bronze.sql
-    │   └── load_bronze_source.sql
-    ├── data_catalog.md
-    ├── gold
-    │   ├── quality_checks.sql
-    │   └── views.sql
-    ├── init_database.sql
-    └── silver
-    │   ├── ddl_silver.sql
-    │   ├── quality_checks.sql
-    │   └── transformations.sql
-└── datasets
-    ├── source_crm
-        ├── cust_info.csv
-        ├── prd_info.csv
-        └── sales_details.csv
-    └── source_erp
-        ├── CUST_AZ12.csv
-        ├── LOC_A101.csv
-        └── PX_CAT_G1V2.csv
+├── README.md\
+├── Scripts\
+    ├── bronze\
+    │   ├── ddl_bronze.sql\
+    │   └── load_bronze_source.sql\
+    ├── data_catalog.md\
+    ├── gold\
+    │   ├── quality_checks.sql\
+    │   └── views.sql\
+    ├── init_database.sql\
+    └── silver\
+    │   ├── ddl_silver.sql\
+    │   ├── quality_checks.sql\
+    │   └── transformations.sql\
+└── datasets\
+    ├── source_crm\
+        ├── cust_info.csv\
+        ├── prd_info.csv\
+        └── sales_details.csv\
+    └── source_erp\
+        ├── CUST_AZ12.csv\
+        ├── LOC_A101.csv\
+        └── PX_CAT_G1V2.csv\
