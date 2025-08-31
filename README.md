@@ -73,25 +73,30 @@ These insights empower stakeholders with key business metrics, enabling strategi
 For more details, refer to [docs/requirements.md](docs/requirements.md).
 
  
- | ## 📂 Repository Structure
+  ## 📂 Repository Structure
  
- | data-warehouse-project/
- | │
- | ├── datasets/                           # Raw datasets used for the project (ERP and CRM data)
- | │
- | ├── docs/                               # Project documentation and architecture details
- | │   ├── data_catalog.md                 # Catalog of datasets, including field descriptions and metadata
- | │   ├── naming-conventions.md           # Consistent naming guidelines for tables, columns, and files
- | │
- | ├── scripts/                            # SQL scripts for ETL and transformations
- | │   ├── bronze/                         # Scripts for extracting and loading raw data
- | │   ├── silver/                         # Scripts for cleaning and transforming data
- | │   ├── gold/                           # Scripts for creating analytical models
- | │
- | ├── tests/                              # Test scripts and quality files
- | │
- | ├── README.md                           # Project overview and instructions
- | ├── LICENSE                             # License information for the repository
- | ├── .gitignore                          # Files and directories to be ignored by Git
- | └── requirements.txt                    # Dependencies and requirements for the project
- |
+├── .gitignore
+├── LICENSE
+├── README.md
+├── Scripts
+    ├── bronze
+    │   ├── ddl_bronze.sql
+    │   └── load_bronze_source.sql
+    ├── data_catalog.md
+    ├── gold
+    │   ├── quality_checks.sql
+    │   └── views.sql
+    ├── init_database.sql
+    └── silver
+    │   ├── ddl_silver.sql
+    │   ├── quality_checks.sql
+    │   └── transformations.sql
+└── datasets
+    ├── source_crm
+        ├── cust_info.csv
+        ├── prd_info.csv
+        └── sales_details.csv
+    └── source_erp
+        ├── CUST_AZ12.csv
+        ├── LOC_A101.csv
+        └── PX_CAT_G1V2.csv
