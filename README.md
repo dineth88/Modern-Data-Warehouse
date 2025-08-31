@@ -75,8 +75,8 @@ For more details, refer to [docs/requirements.md](docs/requirements.md).
  
   ## 📂 Repository Structure
   
-├── .gitignore
-├── LICENSE
+├── .gitignore \
+├── LICENSE \
 ├── README.md
 ├── Scripts
     ├── bronze
