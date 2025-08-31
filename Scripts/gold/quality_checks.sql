@@ -94,3 +94,34 @@ WHERE prd_end_dt IS NULL
 HAVING COUNT(*) > 1
 
 SELECT * FROM gold.dim_products
+
+-- ======================== gold.sales ===============================
+-- This fact tables is connecting mutiple dimensions through sarrogate kleys comming from dimensions
+--    _ _ _ _ _ _               _ _ _ _ _ _               _ _ _ _ _ _ 
+--   |           |    Key      |           |    Key      |           |
+--   |    Dim    |- - - - - - -|  Fact     |- - - - - - -|    Dim    |
+--   |_ _ _ _ _ _|             |_ _ _ _ _ _|             |_ _ _ _ _ _| 
+
+--   Data Lookup : Joining the dimension tables in order to get their sarrogate keys
+DROP VIEW gold.fact_sales
+
+CREATE VIEW gold.fact_sales AS
+SELECT
+sd.sls_ord_num AS order_number,
+cu.customer_key,
+sd.sls_cust_id,
+sd.sls_order_dt AS order_date,
+sd.sls_ship_dt AS shipping_date,
+sd.sls_due_dt AS due_date,
+sd.sls_sales AS sales_amount,
+sd.sls_quantity AS quantity,
+sd.sls_price
+FROM silver.crm_sales_details sd
+LEFT JOIN gold.dim_products pr
+ON sd.sls_prd_key = pr.product_number
+LEFT JOIN gold.dim_customer cu
+ON sd.sls_cust_id = cu.customer_id
+
+SELECT * FROM gold.fact_sales
+
+SELECT * FROM silver.crm_sales_details

@@ -115,7 +115,7 @@ BEGIN
 		)
 		select 
 		sls_ord_num,
-		sls_prd_key,
+		RIGHT(sls_prd_key, 2) AS sls_prd_key,
 		sls_cust_id,
 		-- date restrictions
 		CASE WHEN sls_order_dt = 0 OR LEN(sls_order_dt) != 8 THEN NULL
